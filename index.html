@@ -1,549 +1,1097 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Papi Trader — Jose Miguel Escobar</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papi Trader — Jose Miguel Escobar | Opciones Binarias</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #F2A900;
+            --gold-light: #FFD54F;
+            --dark: #0A0A0A;
+            --dark-card: #111111;
+            --dark-surface: #1A1A1A;
+            --text: #E8E8E8;
+            --text-muted: #999999;
+            --accent-green: #00E676;
+            --accent-red: #FF1744;
+            --gradient-gold: linear-gradient(135deg, #F2A900, #FF6D00);
+        }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  body {
-    background: #0a0a0a;
-    color: #e0e0e0;
-    font-family: 'Inter', sans-serif;
-    overflow-x: hidden;
-  }
+        html {
+            scroll-behavior: smooth;
+        }
 
-  /* ——— PRELOADER ——— */
-  .preloader {
-    position: fixed; inset: 0; z-index: 9999;
-    background: #0a0a0a;
-    display: flex; align-items: center; justify-content: center;
-    transition: opacity .6s ease;
-  }
-  .preloader.hidden { opacity: 0; pointer-events: none; }
-  .preloader-text {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem; color: #c8a84e;
-    animation: pulse 1.5s infinite;
-  }
-  @keyframes pulse { 0%,100%{ opacity:.3 } 50%{ opacity:1 } }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            overflow-x: hidden;
+        }
 
-  /* ——— NAVBAR ——— */
-  .navbar {
-    position: absolute;
-    top: 0; left: 0; width: 100%;
-    padding: 1.2rem 2rem;
-    display: flex; justify-content: space-between; align-items: center;
-    z-index: 100;
-    background: rgba(10,10,10,0.8);
-    backdrop-filter: blur(10px);
-  }
-  .nav-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.3rem; color: #c8a84e;
-    text-decoration: none;
-  }
-  .nav-links { display: flex; gap: 1.5rem; list-style: none; align-items: center; }
-  .nav-links a {
-    color: #999; text-decoration: none; font-size: .85rem;
-    letter-spacing: 1px; text-transform: uppercase;
-    transition: color .3s;
-  }
-  .nav-links a:hover { color: #c8a84e; }
-  .nav-social { display: flex; gap: 1rem; align-items: center; }
-  .nav-social a {
-    color: #888; text-decoration: none; font-size: .85rem;
-    transition: color .3s;
-  }
-  .nav-social a:hover { color: #c8a84e; }
-  .nav-social svg { width: 20px; height: 20px; fill: currentColor; vertical-align: middle; }
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(242, 169, 0, 0.15);
+            transition: all 0.3s ease;
+        }
 
-  @media(max-width:768px) {
-    .nav-links { display: none; }
-    .navbar { padding: 1rem 1.2rem; }
-  }
+        .navbar.scrolled {
+            padding: 10px 40px;
+            background: rgba(10, 10, 10, 0.95);
+        }
 
-  /* ——— HERO ——— */
-  .hero {
-    min-height: 100vh;
-    display: grid; grid-template-columns: 1fr 1fr;
-    align-items: center;
-    padding: 8rem 5% 4rem;
-    position: relative;
-  }
-  .hero::after {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(135deg, rgba(10,10,10,0.95), rgba(10,10,10,0.4));
-    z-index: 0;
-  }
-  .hero-content { position: relative; z-index: 1; }
-  .hero-tag {
-    font-size: .75rem; letter-spacing: 3px; color: #c8a84e;
-    text-transform: uppercase; margin-bottom: 1rem;
-  }
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 3.8rem; line-height: 1.1;
-    color: #fff; margin-bottom: .5rem;
-  }
-  .hero h1 span { color: #c8a84e; }
-  .hero-sub {
-    font-size: 1rem; color: #888; margin-bottom: 1.5rem;
-  }
-  .hero-quote {
-    font-style: italic; color: #bbb;
-    border-left: 2px solid #c8a84e;
-    padding-left: 1rem; margin-bottom: 2rem;
-    max-width: 500px; line-height: 1.6;
-  }
-  .hero-stats { display: flex; gap: 2.5rem; margin-bottom: 2rem; }
-  .stat-item .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.5rem; color: #c8a84e;
-  }
-  .stat-item .stat-label {
-    font-size: .75rem; letter-spacing: 1px;
-    text-transform: uppercase; color: #777;
-  }
-  .hero-buttons {
-    display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;
-  }
-  .btn-primary {
-    display: inline-flex; align-items: center; gap: .5rem;
-    padding: .9rem 2rem;
-    background: linear-gradient(135deg, #c8a84e, #a07c30);
-    color: #000; font-weight: 700;
-    text-decoration: none; border-radius: 50px;
-    font-size: .9rem; letter-spacing: 1px;
-    transition: transform .3s, box-shadow .3s;
-  }
-  .btn-primary:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 40px rgba(200,168,78,0.3);
-  }
-  .btn-secondary {
-    display: inline-flex; align-items: center; gap: .5rem;
-    padding: .9rem 2rem;
-    border: 1px solid #c8a84e;
-    color: #c8a84e; font-weight: 600;
-    text-decoration: none; border-radius: 50px;
-    font-size: .9rem; letter-spacing: 1px;
-    transition: background .3s, color .3s;
-  }
-  .btn-secondary:hover {
-    background: #c8a84e;
-    color: #000;
-  }
-  .btn-icon { width: 18px; height: 18px; fill: currentColor; }
-  .scroll-indicator {
-    display: flex; flex-direction: column;
-    align-items: center; gap: .5rem;
-    color: #555; font-size: .7rem;
-    letter-spacing: 2px; text-transform: uppercase;
-  }
-  .scroll-line {
-    width: 1px; height: 40px;
-    background: linear-gradient(to bottom, #c8a84e, transparent);
-  }
-  .hero-image {
-    position: relative; z-index: 1;
-    display: flex; justify-content: center;
-  }
-  .hero-image img {
-    width: 85%; max-width: 450px;
-    border-radius: 8px;
-    filter: grayscale(20%) contrast(1.1);
-  }
+        .nav-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            letter-spacing: 3px;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+        }
 
-  @media(max-width:768px) {
-    .hero {
-      grid-template-columns: 1fr;
-      padding: 6rem 6% 3rem;
-      text-align: center;
-    }
-    .hero h1 { font-size: 2.5rem; }
-    .hero-stats { justify-content: center; }
-    .hero-buttons { justify-content: center; }
-    .hero-image { margin-top: 2rem; }
-    .hero-image img { width: 70%; }
-    .hero-quote { margin-left: auto; margin-right: auto; }
-  }
+        .nav-logo span {
+            -webkit-text-fill-color: white;
+        }
 
-  /* ——— SECTIONS ——— */
-  section { padding: 5rem 8%; }
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.2rem; color: #fff;
-    margin-bottom: 2rem;
-  }
-  .section-title span { color: #c8a84e; }
-  .gold-line {
-    width: 60px; height: 2px;
-    background: #c8a84e; margin-bottom: 2rem;
-  }
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
 
-  /* ——— STORY / TIMELINE ——— */
-  .story { max-width: 800px; margin: 0 auto; }
-  .story p {
-    color: #bbb; line-height: 1.8;
-    margin-bottom: 1.5rem; font-size: 1.05rem;
-  }
-  .story p::first-letter {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem; color: #c8a84e;
-    float: left; margin-right: .5rem; line-height: 1;
-  }
-  .timeline { position: relative; margin-top: 3rem; padding-left: 2rem; }
-  .timeline::before {
-    content: ''; position: absolute; left: 0; top: 0;
-    width: 2px; height: 100%;
-    background: linear-gradient(to bottom, #c8a84e, transparent);
-  }
-  .timeline-item { margin-bottom: 2.5rem; position: relative; }
-  .timeline-item::before {
-    content: ''; position: absolute; left: -2rem;
-    top: .5rem; width: 10px; height: 10px;
-    background: #c8a84e; border-radius: 50%;
-    transform: translateX(-4px);
-  }
-  .timeline-year {
-    font-family: 'Playfair Display', serif;
-    color: #c8a84e; font-size: 1.4rem;
-    margin-bottom: .3rem;
-  }
-  .timeline-item p { color: #999; line-height: 1.6; }
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+            position: relative;
+        }
 
-  /* ——— PHILOSOPHY ——— */
-  .philosophy-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem; margin-top: 2rem;
-  }
-  .phil-card {
-    background: #111; border: 1px solid #1a1a1a;
-    border-radius: 10px; padding: 2rem;
-    transition: border-color .3s, transform .3s;
-  }
-  .phil-card:hover {
-    border-color: #c8a84e;
-    transform: translateY(-4px);
-  }
-  .phil-icon { font-size: 2rem; margin-bottom: 1rem; }
-  .phil-card h3 {
-    font-family: 'Playfair Display', serif;
-    color: #fff; margin-bottom: .5rem;
-  }
-  .phil-card p { color: #888; line-height: 1.6; font-size: .95rem; }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-gold);
+            transition: width 0.3s;
+        }
 
-  /* ——— LIFESTYLE GRID ——— */
-  .lifestyle-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem; margin-top: 2rem;
-  }
-  .lifestyle-grid img {
-    width: 100%; border-radius: 8px;
-    filter: grayscale(30%) contrast(1.05);
-    transition: filter .4s, transform .4s;
-  }
-  .lifestyle-grid img:hover {
-    filter: grayscale(0%);
-    transform: scale(1.02);
-  }
+        .nav-links a:hover {
+            color: var(--gold);
+        }
 
-  /* ——— PROFILE / FACTS ——— */
-  .profile-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 1rem; max-width: 700px; margin-top: 2rem;
-  }
-  .profile-item {
-    display: flex; justify-content: space-between;
-    padding: .8rem 0;
-    border-bottom: 1px solid #1a1a1a;
-  }
-  .profile-label { color: #666; font-size: .85rem; text-transform: uppercase; letter-spacing: 1px; }
-  .profile-value { color: #fff; font-weight: 600; }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
 
-  @media(max-width:768px) {
-    .profile-grid { grid-template-columns: 1fr; }
-  }
+        .nav-cta {
+            background: var(--gradient-gold);
+            color: var(--dark);
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
 
-  /* ——— CTA ——— */
-  .cta {
-    text-align: center; padding: 5rem 8%;
-    background: linear-gradient(135deg, #0f0f0f, #1a1a0a);
-    border-top: 1px solid #1a1a1a;
-  }
-  .cta h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.5rem; color: #fff; margin-bottom: 1rem;
-  }
-  .cta h2 span { color: #c8a84e; }
-  .cta p { color: #888; margin-bottom: 2rem; max-width: 500px; margin-inline: auto; }
-  .cta-buttons {
-    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
-  }
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(242, 169, 0, 0.3);
+        }
 
-  /* ——— FOOTER ——— */
-  footer {
-    text-align: center; padding: 2rem;
-    color: #555; font-size: .8rem;
-    border-top: 1px solid #111;
-  }
-  .footer-links {
-    display: flex; justify-content: center; gap: 2rem;
-    margin-bottom: 1rem;
-  }
-  .footer-links a {
-    color: #666; text-decoration: none; font-size: .85rem;
-    transition: color .3s;
-  }
-  .footer-links a:hover { color: #c8a84e; }
+        /* ===== HAMBURGER ===== */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1100;
+        }
 
-  /* ——— ANIMATIONS ——— */
-  .fade-in {
-    opacity: 0; transform: translateY(30px);
-    transition: opacity .8s ease, transform .8s ease;
-  }
-  .fade-in.visible { opacity: 1; transform: translateY(0); }
-</style>
+        .hamburger span {
+            width: 28px;
+            height: 2px;
+            background: var(--gold);
+            transition: all 0.3s;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.35;
+        }
+
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to right,
+                rgba(10,10,10,0.95) 0%,
+                rgba(10,10,10,0.7) 50%,
+                rgba(10,10,10,0.4) 100%
+            );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 140px 40px 100px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(242, 169, 0, 0.1);
+            border: 1px solid rgba(242, 169, 0, 0.3);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+        }
+
+        .hero-tag .pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+
+        .hero-left h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(48px, 7vw, 84px);
+            line-height: 0.95;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+        }
+
+        .hero-left h1 .gold {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-left p {
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--gradient-gold);
+            color: var(--dark);
+            padding: 16px 36px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(242, 169, 0, 0.35);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            padding: 16px 36px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(242, 169, 0, 0.05);
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: rgba(17, 17, 17, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(242, 169, 0, 0.1);
+            border-radius: 16px;
+            padding: 28px 24px;
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(242, 169, 0, 0.4);
+        }
+
+        .stat-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 42px;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 8px;
+        }
+
+        /* ===== SECTIONS COMMON ===== */
+        section {
+            padding: 100px 40px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 16px;
+        }
+
+        .section-header h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(36px, 5vw, 56px);
+            letter-spacing: 2px;
+            line-height: 1.1;
+        }
+
+        .section-header h2 .gold {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ===== ABOUT / HISTORIA ===== */
+        .about {
+            background: var(--dark-card);
+        }
+
+        .about-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-image {
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .about-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            border: 1px solid rgba(242, 169, 0, 0.2);
+            pointer-events: none;
+        }
+
+        .about-text h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 36px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .about-text h3 .gold {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 16px;
+            font-size: 15px;
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 48px;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+            padding-right: calc(50% + 32px);
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+            padding-left: calc(50% + 32px);
+            text-align: left;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: var(--gradient-gold);
+            border-radius: 50%;
+            border: 3px solid var(--dark);
+            z-index: 2;
+        }
+
+        .timeline-content {
+            background: var(--dark-surface);
+            border: 1px solid rgba(242, 169, 0, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            transition: border-color 0.3s;
+        }
+
+        .timeline-content:hover {
+            border-color: rgba(242, 169, 0, 0.4);
+        }
+
+        .timeline-year {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .timeline-content h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .timeline-content p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* ===== SPECIALIZATION ===== */
+        .spec-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .spec-card {
+            background: var(--dark-card);
+            border: 1px solid rgba(242, 169, 0, 0.08);
+            border-radius: 16px;
+            padding: 40px 28px;
+            text-align: center;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .spec-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-gold);
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .spec-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .spec-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(242, 169, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .spec-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .spec-card h4 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .spec-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* ===== LIFESTYLE ===== */
+        .lifestyle {
+            background: var(--dark-card);
+        }
+
+        .lifestyle-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .lifestyle-image {
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .lifestyle-image img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .lifestyle-text h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 36px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .lifestyle-text h3 .gold {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .lifestyle-text p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            font-size: 15px;
+            margin-bottom: 16px;
+        }
+
+        .lifestyle-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .lifestyle-tags span {
+            background: rgba(242, 169, 0, 0.1);
+            border: 1px solid rgba(242, 169, 0, 0.2);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 13px;
+            color: var(--gold-light);
+            font-weight: 500;
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta-section {
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(242, 169, 0, 0.08), transparent 70%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .cta-section h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(40px, 6vw, 64px);
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .cta-section h2 .gold {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            font-size: 18px;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .btn-telegram {
+            background: linear-gradient(135deg, #0088cc, #00aaff);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-telegram:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 136, 204, 0.35);
+        }
+
+        .btn-youtube {
+            background: linear-gradient(135deg, #FF0000, #CC0000);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-youtube:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(255, 0, 0, 0.3);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid rgba(242, 169, 0, 0.1);
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        footer .gold {
+            color: var(--gold);
+        }
+
+        /* ===== SCROLL ANIMATIONS ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 968px) {
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(10, 10, 10, 0.98);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 40px;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                font-size: 24px;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 120px 20px 60px;
+                gap: 40px;
+            }
+
+            .hero-left p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-stats {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .about-grid,
+            .lifestyle-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .spec-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .timeline-container::before {
+                left: 20px;
+            }
+
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                flex-direction: row;
+                padding-left: 52px;
+                padding-right: 0;
+                text-align: left;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+
+            section {
+                padding: 60px 20px;
+            }
+
+            .navbar {
+                padding: 14px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<!-- PRELOADER -->
-<div class="preloader" id="preloader">
-  <div class="preloader-text">Papi Trader</div>
-</div>
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-logo">PAPI <span>TRADER</span></div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#historia" onclick="closeMenu()">Historia</a></li>
+            <li><a href="#trayectoria" onclick="closeMenu()">Trayectoria</a></li>
+            <li><a href="#especialidad" onclick="closeMenu()">Especialidad</a></li>
+            <li><a href="#vida" onclick="closeMenu()">Vida</a></li>
+        </ul>
+        <a href="https://tg.trading-top.com/1if8xkE1rr" target="_blank" class="nav-cta">Unirse al Equipo</a>
+        <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-  <a href="#" class="nav-logo">Papi Trader</a>
-  <ul class="nav-links">
-    <li><a href="#historia">Historia</a></li>
-    <li><a href="#trayectoria">Trayectoria</a></li>
-    <li><a href="#filosofia">Filosofía</a></li>
-    <li><a href="#perfil">Perfil</a></li>
-    <li><a href="#contacto">Contacto</a></li>
-  </ul>
-  <div class="nav-social">
-    <a href="https://www.youtube.com/@jozigod/videos" target="_blank" title="YouTube">
-      <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-    </a>
-    <a href="https://tg.trading-top.com/1if8xkE1rr" target="_blank" title="Telegram">
-      <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0h-.056zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-    </a>
-  </div>
-</nav>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-bg">
+            <img src="images/papi-hero.jpg" alt="Papi Trader">
+        </div>
+        <div class="hero-content">
+            <div class="hero-left">
+                <div class="hero-tag">
+                    <span class="pulse"></span>
+                    Trader de Opciones Binarias
+                </div>
+                <h1>
+                    JOSE MIGUEL<br>
+                    <span class="gold">ESCOBAR</span>
+                </h1>
+                <p>De estudiante de IT en Ciudad de México a trader profesional de opciones binarias en Miami. 10 años de experiencia, más de 50.000 estudiantes formados y un sistema de señales con precisión comprobada.</p>
+                <div class="hero-buttons">
+                    <a href="https://tg.trading-top.com/1if8xkE1rr" target="_blank" class="btn-primary">📲 Canal de Señales</a>
+                    <a href="https://www.youtube.com/@jozigod" target="_blank" class="btn-secondary">▶ YouTube</a>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">Años de Trading</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50K+</div>
+                    <div class="stat-label">Estudiantes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">87%</div>
+                    <div class="stat-label">Win Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24/5</div>
+                    <div class="stat-label">Mercado Activo</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-content">
-    <div class="hero-tag">Trader · Educador · Creador de Contenido</div>
-    <h1>Jose Miguel<br><span>Escobar</span></h1>
-    <p class="hero-sub">Papi Trader — Miami, FL</p>
-    <p class="hero-quote">«El dinero no es el objetivo. Es la herramienta de libertad que tú mismo te das.»</p>
-    <div class="hero-stats">
-      <div class="stat-item">
-        <div class="stat-num">9+</div>
-        <div class="stat-label">Años en Trading</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">50K+</div>
-        <div class="stat-label">Estudiantes Online</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">12</div>
-        <div class="stat-label">Países de Audiencia</div>
-      </div>
-    </div>
-    <div class="hero-buttons">
-      <a href="https://tg.trading-top.com/1if8xkE1rr" target="_blank" class="btn-primary">
-        <svg class="btn-icon" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0h-.056zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-        Unirse al Canal
-      </a>
-      <a href="https://www.youtube.com/@jozigod/videos" target="_blank" class="btn-secondary">
-        <svg class="btn-icon" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-        Ver en YouTube
-      </a>
-    </div>
-    <div class="scroll-indicator">
-      <span>Scroll</span>
-      <div class="scroll-line"></div>
-    </div>
-  </div>
-  <div class="hero-image">
-    <img src="images/papi-hero.jpg" alt="Jose Miguel Escobar — Papi Trader">
-  </div>
-</section>
+    <!-- ABOUT / HISTORIA -->
+    <section class="about" id="historia">
+        <div class="about-grid">
+            <div class="about-image reveal">
+                <img src="images/papi-work.jpg" alt="Papi Trader trabajando">
+            </div>
+            <div class="about-text reveal">
+                <div class="section-tag">Mi Historia</div>
+                <h3>Del código a los <span class="gold">gráficos de trading</span></h3>
+                <p>Mi nombre es Jose Miguel Escobar, nací en Ciudad de México en 1997. Desde joven me apasionó la tecnología — estudié ingeniería en sistemas y trabajé como desarrollador. Pero todo cambió cuando descubrí las opciones binarias en 2015.</p>
+                <p>Lo que empezó como curiosidad se convirtió en obsesión. Pasé meses analizando gráficos, probando estrategias y perfeccionando mi sistema de análisis técnico. Mi formación en IT me dio una ventaja: podía analizar patrones de datos mejor que la mayoría.</p>
+                <p>En 2018 dejé mi trabajo en tecnología y me mudé a Miami para dedicarme al trading de opciones binarias a tiempo completo. Desde entonces, he formado a más de 50.000 traders y construido una comunidad que opera con disciplina y resultados.</p>
+            </div>
+        </div>
+    </section>
 
-<!-- MI HISTORIA -->
-<section id="historia" class="fade-in">
-  <div class="gold-line"></div>
-  <h2 class="section-title">Mi <span>Historia</span></h2>
-  <div class="story">
-    <p>Nací en Ciudad de México, en una familia sencilla: mi padre trabajaba en una fábrica y mi madre llevaba la contabilidad de una pequeña tienda. A los 15 años escribí mi primer programa en Pascal y comprendí que la tecnología podía sacarme del mundo en el que crecí.</p>
-    <p>A los 18 me mudé a Guadalajara y entré en la Facultad de Ingeniería Informática. Fue allí, en segundo año, donde un amigo me mostró un gráfico de Bitcoin. Corría el año 2015. Perdí mis primeros $200 en dos días, pero no me detuve: me enamoré del mercado.</p>
-    <p>Hoy vivo en Miami, gestiono un equipo de analistas y dirijo una comunidad con más de 50,000 estudiantes. Pero lo más importante para mí no son las cifras, sino las historias de personas que por primera vez en su vida alcanzaron la libertad financiera gracias a la educación.</p>
-  </div>
-</section>
+    <!-- TIMELINE / TRAYECTORIA -->
+    <section id="trayectoria">
+        <div class="section-header">
+            <div class="section-tag">Trayectoria</div>
+            <h2>MI CAMINO EN <span class="gold">OPCIONES BINARIAS</span></h2>
+        </div>
+        <div class="timeline-container">
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-year">2015</div>
+                    <h4>Primeras operaciones</h4>
+                    <p>Descubrí las opciones binarias mientras estudiaba IT en Ciudad de México. Abrí mi primera cuenta con $50 y empecé a estudiar análisis técnico cada noche después de clases.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-year">2017</div>
+                    <h4>Sistema propio de señales</h4>
+                    <p>Después de 2 años de práctica, desarrollé mi propio sistema de trading basado en acción del precio, soportes/resistencias y patrones de velas. Mi win rate superó el 80%.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-year">2018</div>
+                    <h4>Salto a Miami</h4>
+                    <p>Dejé mi trabajo como desarrollador y me mudé a Miami. Las opciones binarias pasaron de ser un ingreso extra a mi profesión principal. Empecé a publicar resultados y atraer seguidores.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-year">2020</div>
+                    <h4>Lanzamiento de la comunidad</h4>
+                    <p>Creé mi canal de Telegram con señales en tiempo real. En los primeros 6 meses, más de 5.000 personas se unieron. La pandemia aceleró el interés en trading online.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-year">2022</div>
+                    <h4>Educación masiva</h4>
+                    <p>Lancé mi programa de formación en YouTube con análisis de mercado, tutoriales de estrategias y sesiones en vivo. El canal creció exponencialmente en toda Latinoamérica.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-year">2024</div>
+                    <h4>50.000+ traders formados</h4>
+                    <p>Hoy lidero una comunidad de más de 50.000 estudiantes activos. Mi sistema de señales VIP mantiene un win rate del 87% y sigo operando en vivo cada día.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- TRAYECTORIA -->
-<section id="trayectoria" class="fade-in">
-  <div class="gold-line"></div>
-  <h2 class="section-title">Mi <span>Trayectoria</span></h2>
-  <div class="timeline">
-    <div class="timeline-item">
-      <div class="timeline-year">2015</div>
-      <p>Primeras operaciones con criptomonedas. Pérdidas dolorosas que se convirtieron en las lecciones más valiosas.</p>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-year">2017</div>
-      <p>Transición a Forex y derivados. Desarrollo de mi primer sistema algorítmico de trading.</p>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-year">2019</div>
-      <p>Lanzamiento de mi canal educativo. Los primeros 5,000 estudiantes en tres meses.</p>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-year">2020</div>
-      <p>Mudanza a Miami. Creación de la comunidad VIP y del programa de mentoría.</p>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-year">2022</div>
-      <p>Más de 30,000 estudiantes. Colaboraciones con brókers internacionales. Desarrollo de la marca Papi Trader.</p>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-year">2024</div>
-      <p>50,000+ estudiantes en 12 países. Enfoque en la educación financiera para Latinoamérica.</p>
-    </div>
-  </div>
-</section>
+    <!-- SPECIALIZATION / ESPECIALIDAD -->
+    <section class="about" id="especialidad">
+        <div class="section-header">
+            <div class="section-tag">Especialidad</div>
+            <h2>OPCIONES BINARIAS: <span class="gold">MI ENFOQUE</span></h2>
+        </div>
+        <div class="spec-grid">
+            <div class="spec-card reveal">
+                <div class="spec-icon">📊</div>
+                <h4>ANÁLISIS TÉCNICO</h4>
+                <p>Opero con acción del precio puro: soportes, resistencias, patrones de velas japonesas y zonas de liquidez. Sin indicadores complicados — gráfico limpio.</p>
+            </div>
+            <div class="spec-card reveal">
+                <div class="spec-icon">⏱️</div>
+                <h4>SEÑALES EN VIVO</h4>
+                <p>Señales de opciones binarias en tiempo real por Telegram. Cada señal incluye activo, dirección, expiración y nivel de confianza. Transparencia total.</p>
+            </div>
+            <div class="spec-card reveal">
+                <div class="spec-icon">🎯</div>
+                <h4>WIN RATE 87%</h4>
+                <p>Mi sistema mantiene un porcentaje de aciertos del 87% verificado. La clave: paciencia, disciplina y esperar solo las mejores configuraciones del mercado.</p>
+            </div>
+            <div class="spec-card reveal">
+                <div class="spec-icon">🧠</div>
+                <h4>PSICOLOGÍA DEL TRADER</h4>
+                <p>El 80% del trading es mental. Enseño gestión emocional, control de impulsos y cómo mantener la disciplina cuando el mercado se pone difícil.</p>
+            </div>
+            <div class="spec-card reveal">
+                <div class="spec-icon">💰</div>
+                <h4>GESTIÓN DE CAPITAL</h4>
+                <p>Reglas estrictas de money management: nunca arriesgar más del 2-5% por operación. Así se protege el capital y se crece de forma sostenible.</p>
+            </div>
+            <div class="spec-card reveal">
+                <div class="spec-icon">🎓</div>
+                <h4>FORMACIÓN COMPLETA</h4>
+                <p>Desde principiante hasta trader avanzado. Mi programa cubre análisis técnico, estrategias de opciones binarias, lectura de mercado y trading en vivo.</p>
+            </div>
+        </div>
+    </section>
 
-<!-- FILOSOFÍA -->
-<section id="filosofia" class="fade-in">
-  <div class="gold-line"></div>
-  <h2 class="section-title">Mi <span>Filosofía</span></h2>
-  <div class="philosophy-grid">
-    <div class="phil-card">
-      <div class="phil-icon">🧠</div>
-      <h3>Disciplina sobre Emoción</h3>
-      <p>El mercado castiga las emociones. Cada operación es una decisión fría basada en análisis, no en impulsos.</p>
-    </div>
-    <div class="phil-card">
-      <div class="phil-icon">📊</div>
-      <h3>Sistema ante todo</h3>
-      <p>Sin un sistema no hay trading. Solo hay apuestas. Mi enfoque se basa en algoritmos comprobados y gestión estricta del riesgo.</p>
-    </div>
-    <div class="phil-card">
-      <div class="phil-icon">🌎</div>
-      <h3>Educación Accesible</h3>
-      <p>La educación financiera no debería ser un privilegio. Mi misión es abrirle las puertas a cualquier persona en Latinoamérica.</p>
-    </div>
-    <div class="phil-card">
-      <div class="phil-icon">⚡</div>
-      <h3>Progreso Constante</h3>
-      <p>No existen atajos. Cada día es una oportunidad para mejorar tu estrategia, tu mente y tus resultados.</p>
-    </div>
-  </div>
-</section>
+    <!-- LIFESTYLE / VIDA -->
+    <section class="lifestyle" id="vida">
+        <div class="lifestyle-grid">
+            <div class="lifestyle-text reveal">
+                <div class="section-tag">Estilo de Vida</div>
+                <h3>El trading me dio <span class="gold">libertad financiera</span></h3>
+                <p>Vivo en Miami, opero desde donde quiera y tengo control total de mi tiempo. Pero esto no es solo sobre dinero — es sobre construir una vida con propósito.</p>
+                <p>Cada mañana analizo los mercados, envío señales a mi comunidad y grabo contenido educativo. El trading de opciones binarias me permitió salir de la rutina de un trabajo convencional y crear algo propio.</p>
+                <p>Mi misión es demostrar que cualquier persona con disciplina y el sistema correcto puede generar ingresos reales operando opciones binarias. No importa de dónde vengas — lo que importa es tu compromiso.</p>
+                <div class="lifestyle-tags">
+                    <span>🌴 Miami Life</span>
+                    <span>📈 Opciones Binarias</span>
+                    <span>🎓 Mentor</span>
+                    <span>💻 Trading Online</span>
+                    <span>🇲🇽 Orgullosamente Mexicano</span>
+                </div>
+            </div>
+            <div class="lifestyle-image reveal">
+                <img src="images/papi-life.jpg" alt="Papi Trader lifestyle">
+            </div>
+        </div>
+    </section>
 
-<!-- ESTILO DE VIDA -->
-<section class="fade-in">
-  <div class="gold-line"></div>
-  <h2 class="section-title">Estilo de <span>Vida</span></h2>
-  <div class="lifestyle-grid">
-    <img src="images/papi-phone.jpg" alt="Papi Trader analizando el mercado">
-    <img src="images/papi-read.jpg" alt="Papi Trader en estudio">
-    <img src="images/papi-sofa.jpg" alt="Papi Trader estilo de vida">
-  </div>
-</section>
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2>¿LISTO PARA <span class="gold">OPERAR</span>?</h2>
+        <p>Únete a más de 50.000 traders que ya operan con mis señales de opciones binarias. Acceso a señales en vivo, formación y comunidad VIP.</p>
+        <div class="cta-buttons">
+            <a href="https://tg.trading-top.com/1if8xkE1rr" target="_blank" class="btn-telegram">📲 Telegram VIP</a>
+            <a href="https://www.youtube.com/@jozigod" target="_blank" class="btn-youtube">▶ YouTube</a>
+        </div>
+    </section>
 
-<!-- PERFIL -->
-<section id="perfil" class="fade-in">
-  <div class="gold-line"></div>
-  <h2 class="section-title">Datos <span>Personales</span></h2>
-  <div class="profile-grid">
-    <div class="profile-item">
-      <span class="profile-label">Nombre Completo</span>
-      <span class="profile-value">Jose Miguel Escobar</span>
-    </div>
-    <div class="profile-item">
-      <span class="profile-label">Alias</span>
-      <span class="profile-value">Papi Trader</span>
-    </div>
-    <div class="profile-item">
-      <span class="profile-label">Edad</span>
-      <span class="profile-value">28 años</span>
-    </div>
-    <div class="profile-item">
-      <span class="profile-label">Ubicación</span>
-      <span class="profile-value">Miami, FL</span>
-    </div>
-    <div class="profile-item">
-      <span class="profile-label">Especialidad</span>
-      <span class="profile-value">Forex · Cripto · Derivados</span>
-    </div>
-    <div class="profile-item">
-      <span class="profile-label">Experiencia</span>
-      <span class="profile-value">9+ años</span>
-    </div>
-    <div class="profile-item">
-      <span class="profile-label">Idiomas</span>
-      <span class="profile-value">Español · Inglés</span>
-    </div>
-    <div class="profile-item">
-      <span class="profile-label">Educación</span>
-      <span class="profile-value">Ingeniería Informática</span>
-    </div>
-  </div>
-</section>
+    <!-- FOOTER -->
+    <footer>
+        <p><span class="gold">PAPI TRADER</span> © 2024 — Jose Miguel Escobar. Todos los derechos reservados.</p>
+        <p style="margin-top: 8px; font-size: 11px;">El trading de opciones binarias implica riesgo. Opera con responsabilidad.</p>
+    </footer>
 
-<!-- CTA -->
-<section id="contacto" class="cta fade-in">
-  <h2>Únete al <span>Equipo</span></h2>
-  <p>Accede a señales en tiempo real, mentoría personalizada y a una comunidad de traders con ideas afines.</p>
-  <div class="cta-buttons">
-    <a href="https://tg.trading-top.com/1if8xkE1rr" target="_blank" class="btn-primary">
-      <svg class="btn-icon" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0h-.056zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-      Unirse al Canal de Telegram
-    </a>
-    <a href="https://www.youtube.com/@jozigod/videos" target="_blank" class="btn-secondary">
-      <svg class="btn-icon" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-      Ver en YouTube
-    </a>
-  </div>
-</section>
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-links">
-    <a href="https://tg.trading-top.com/1if8xkE1rr" target="_blank">Telegram</a>
-    <a href="https://www.youtube.com/@jozigod/videos" target="_blank">YouTube</a>
-  </div>
-  <p>© 2024 Papi Trader. Todos los derechos reservados.</p>
-</footer>
+        // Mobile menu
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
 
-<script>
-  // Preloader
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      document.getElementById('preloader').classList.add('hidden');
-    }, 1200);
-  });
+        function closeMenu() {
+            document.getElementById('navLinks').classList.remove('active');
+        }
 
-  // Scroll animations
-  const faders = document.querySelectorAll('.fade-in');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.15 });
-  faders.forEach(el => observer.observe(el));
-</script>
+        // Scroll reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        revealElements.forEach(el => observer.observe(el));
+    </script>
 
 </body>
 </html>
