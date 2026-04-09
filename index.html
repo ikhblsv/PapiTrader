@@ -3,21 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Papi Trader — Jose Miguel Escobar | Opciones Binarias</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Papi Trader — Jose Miguel Escobar</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
         :root {
-            --gold: #F2A900;
-            --gold-light: #FFD54F;
-            --dark: #0A0A0A;
-            --dark-card: #111111;
-            --dark-surface: #1A1A1A;
-            --text: #E8E8E8;
-            --text-muted: #999999;
-            --accent-green: #00E676;
-            --accent-red: #FF1744;
-            --gradient-gold: linear-gradient(135deg, #F2A900, #FF6D00);
+            --gold: #D4A843;
+            --gold-light: #F0D078;
+            --gold-dark: #B8922E;
+            --bg-primary: #0A0A0A;
+            --bg-secondary: #111111;
+            --bg-card: #1A1A1A;
+            --bg-card-hover: #222222;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B0B0;
+            --text-muted: #707070;
+            --border: rgba(212, 168, 67, 0.15);
+            --border-hover: rgba(212, 168, 67, 0.4);
+            --gradient-gold: linear-gradient(135deg, #D4A843, #F0D078, #D4A843);
+            --gradient-dark: linear-gradient(180deg, #0A0A0A 0%, #111111 100%);
+            --shadow-gold: 0 0 30px rgba(212, 168, 67, 0.15);
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
 
         * {
@@ -32,497 +38,380 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--dark);
-            color: var(--text);
+            background: var(--bg-primary);
+            color: var(--text-primary);
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* ===== NAVBAR ===== */
+        /* === NAVBAR === */
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
+            right: 0;
             z-index: 1000;
-            padding: 16px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(10, 10, 10, 0.85);
+            background: rgba(10, 10, 10, 0.9);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(242, 169, 0, 0.15);
-            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--border);
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .navbar.scrolled {
-            padding: 10px 40px;
-            background: rgba(10, 10, 10, 0.95);
+        .navbar-inner {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .nav-logo {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 28px;
-            letter-spacing: 3px;
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
             background: var(--gradient-gold);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            cursor: pointer;
         }
 
-        .nav-logo span {
-            -webkit-text-fill-color: white;
-        }
-
-        .nav-links {
+        .navbar-links {
             display: flex;
-            gap: 32px;
-            list-style: none;
+            gap: 30px;
         }
 
-        .nav-links a {
-            color: var(--text-muted);
+        .navbar-links a {
+            color: var(--text-secondary);
             text-decoration: none;
-            font-size: 14px;
+            font-size: 0.85rem;
             font-weight: 500;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
-            transition: color 0.3s;
-            position: relative;
+            transition: color 0.3s ease;
         }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gradient-gold);
-            transition: width 0.3s;
-        }
-
-        .nav-links a:hover {
+        .navbar-links a:hover {
             color: var(--gold);
         }
 
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-cta {
-            background: var(--gradient-gold);
-            color: var(--dark);
-            padding: 10px 24px;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-decoration: none;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .nav-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(242, 169, 0, 0.3);
-        }
-
-        /* ===== HAMBURGER ===== */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            z-index: 1100;
-        }
-
-        .hamburger span {
-            width: 28px;
-            height: 2px;
-            background: var(--gold);
-            transition: all 0.3s;
-        }
-
-        /* ===== HERO ===== */
+        /* === HERO === */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-        }
-
-        .hero-bg img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.35;
-        }
-
-        .hero-bg::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-                to right,
-                rgba(10,10,10,0.95) 0%,
-                rgba(10,10,10,0.7) 50%,
-                rgba(10,10,10,0.4) 100%
-            );
+            justify-content: center;
+            padding: 100px 20px 60px;
+            background: radial-gradient(ellipse at 50% 30%, rgba(212, 168, 67, 0.06) 0%, transparent 60%);
         }
 
         .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 140px 40px 100px;
+            max-width: 1100px;
+            width: 100%;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            align-items: center;
             gap: 60px;
+            align-items: center;
         }
 
-        .hero-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(242, 169, 0, 0.1);
-            border: 1px solid rgba(242, 169, 0, 0.3);
-            padding: 8px 16px;
+        .hero-text {
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border: 1px solid var(--gold);
             border-radius: 50px;
-            font-size: 12px;
+            font-size: 0.75rem;
             font-weight: 600;
             color: var(--gold);
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            letter-spacing: 2px;
             margin-bottom: 24px;
         }
 
-        .hero-tag .pulse {
-            width: 8px;
-            height: 8px;
-            background: var(--accent-green);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 12px;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.5); }
-        }
-
-        .hero-left h1 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(48px, 7vw, 84px);
-            line-height: 0.95;
-            letter-spacing: 2px;
-            margin-bottom: 24px;
-        }
-
-        .hero-left h1 .gold {
+        .hero-text h1 span {
             background: var(--gradient-gold);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .hero-left p {
-            font-size: 18px;
-            line-height: 1.7;
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-weight: 300;
+        }
+
+        .hero-location {
+            font-size: 0.9rem;
             color: var(--text-muted);
-            margin-bottom: 40px;
-            max-width: 500px;
+            margin-bottom: 32px;
+        }
+
+        .hero-location span {
+            color: var(--gold);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 32px;
+            margin-bottom: 36px;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .hero-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
         }
 
         .hero-buttons {
             display: flex;
             gap: 16px;
-            flex-wrap: wrap;
         }
 
-        .btn-primary {
-            background: var(--gradient-gold);
-            color: var(--dark);
-            padding: 16px 36px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-decoration: none;
-            transition: transform 0.3s, box-shadow 0.3s;
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            animation: slideInRight 1s ease-out;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 420px;
+            border-radius: 20px;
+            border: 2px solid var(--border);
+            box-shadow: var(--shadow-gold);
+            object-fit: cover;
+        }
+
+        /* === BUTTONS === */
+        .btn {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(242, 169, 0, 0.35);
+        .btn-gold {
+            background: var(--gradient-gold);
+            color: #0A0A0A;
+            box-shadow: 0 4px 20px rgba(212, 168, 67, 0.3);
         }
 
-        .btn-secondary {
+        .btn-gold:hover {
+            box-shadow: 0 6px 30px rgba(212, 168, 67, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
             background: transparent;
-            color: var(--text);
-            padding: 16px 36px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-decoration: none;
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--gold);
             color: var(--gold);
-            background: rgba(242, 169, 0, 0.05);
+            border: 1px solid var(--gold);
         }
 
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+        .btn-outline:hover {
+            background: rgba(212, 168, 67, 0.1);
+            transform: translateY(-2px);
         }
 
-        .stat-card {
-            background: rgba(17, 17, 17, 0.8);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(242, 169, 0, 0.1);
-            border-radius: 16px;
-            padding: 28px 24px;
+        .btn-sm {
+            padding: 10px 20px;
+            font-size: 0.8rem;
+        }
+
+        /* === SECTIONS === */
+        .section {
+            padding: 100px 20px;
+        }
+
+        .section-dark {
+            background: var(--bg-secondary);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
             text-align: center;
-            transition: transform 0.3s, border-color 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(242, 169, 0, 0.4);
-        }
-
-        .stat-number {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 42px;
-            background: var(--gradient-gold);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 8px;
-        }
-
-        /* ===== SECTIONS COMMON ===== */
-        section {
-            padding: 100px 40px;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 64px;
-        }
-
-        .section-tag {
-            display: inline-block;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--gold);
-            text-transform: uppercase;
-            letter-spacing: 3px;
             margin-bottom: 16px;
         }
 
-        .section-header h2 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(36px, 5vw, 56px);
-            letter-spacing: 2px;
-            line-height: 1.1;
-        }
-
-        .section-header h2 .gold {
+        .section-title span {
             background: var(--gradient-gold);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        /* ===== ABOUT / HISTORIA ===== */
-        .about {
-            background: var(--dark-card);
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 600px;
+            margin: 0 auto 60px;
         }
 
+        /* === ABOUT === */
         .about-grid {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1.4fr;
             gap: 60px;
             align-items: center;
         }
 
-        .about-image {
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-        }
-
         .about-image img {
             width: 100%;
-            height: 500px;
-            object-fit: cover;
-            display: block;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-card);
         }
 
-        .about-image::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 20px;
-            border: 1px solid rgba(242, 169, 0, 0.2);
-            pointer-events: none;
-        }
-
-        .about-text h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 36px;
-            letter-spacing: 2px;
+        .about-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
             margin-bottom: 20px;
         }
 
-        .about-text h3 .gold {
-            background: var(--gradient-gold);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .about-text p {
-            color: var(--text-muted);
-            line-height: 1.8;
+        .about-content p {
+            color: var(--text-secondary);
             margin-bottom: 16px;
-            font-size: 15px;
+            font-size: 0.95rem;
+            line-height: 1.7;
         }
 
-        /* ===== TIMELINE ===== */
-        .timeline-container {
-            max-width: 800px;
+        .about-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .about-tag {
+            padding: 6px 14px;
+            background: rgba(212, 168, 67, 0.08);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: var(--gold-light);
+        }
+
+        /* === TIMELINE === */
+        .timeline {
+            max-width: 700px;
             margin: 0 auto;
             position: relative;
         }
 
-        .timeline-container::before {
+        .timeline::before {
             content: '';
             position: absolute;
-            left: 50%;
+            left: 20px;
             top: 0;
             bottom: 0;
             width: 2px;
-            background: linear-gradient(to bottom, transparent, var(--gold), transparent);
-            transform: translateX(-50%);
+            background: linear-gradient(to bottom, var(--gold), transparent);
         }
 
         .timeline-item {
             display: flex;
-            align-items: flex-start;
-            margin-bottom: 48px;
-            position: relative;
+            gap: 24px;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: fadeSlideIn 0.6s ease-out forwards;
         }
 
-        .timeline-item:nth-child(odd) {
-            flex-direction: row;
-            padding-right: calc(50% + 32px);
-            text-align: right;
-        }
-
-        .timeline-item:nth-child(even) {
-            flex-direction: row-reverse;
-            padding-left: calc(50% + 32px);
-            text-align: left;
-        }
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+        .timeline-item:nth-child(6) { animation-delay: 0.6s; }
 
         .timeline-dot {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 16px;
-            height: 16px;
-            background: var(--gradient-gold);
+            width: 42px;
+            height: 42px;
+            min-width: 42px;
             border-radius: 50%;
-            border: 3px solid var(--dark);
-            z-index: 2;
-        }
-
-        .timeline-content {
-            background: var(--dark-surface);
-            border: 1px solid rgba(242, 169, 0, 0.1);
-            border-radius: 12px;
-            padding: 24px;
-            transition: border-color 0.3s;
-        }
-
-        .timeline-content:hover {
-            border-color: rgba(242, 169, 0, 0.4);
-        }
-
-        .timeline-year {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 28px;
+            background: var(--bg-card);
+            border: 2px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
             color: var(--gold);
-            margin-bottom: 8px;
         }
 
         .timeline-content h4 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-size: 1rem;
+            margin-bottom: 6px;
+            color: var(--text-primary);
         }
 
         .timeline-content p {
-            font-size: 14px;
-            color: var(--text-muted);
-            line-height: 1.6;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
         }
 
-        /* ===== SPECIALIZATION ===== */
-        .spec-grid {
-            max-width: 1200px;
+        /* === METHODOLOGY CARDS === */
+        .method-grid {
+            max-width: 1100px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 24px;
         }
 
-        .spec-card {
-            background: var(--dark-card);
-            border: 1px solid rgba(242, 169, 0, 0.08);
+        .method-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 40px 28px;
+            padding: 32px 24px;
             text-align: center;
-            transition: all 0.4s;
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .spec-card::before {
+        .method-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -530,318 +419,345 @@
             right: 0;
             height: 3px;
             background: var(--gradient-gold);
-            transform: scaleX(0);
-            transition: transform 0.4s;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        .spec-card:hover::before {
-            transform: scaleX(1);
+        .method-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-gold);
         }
 
-        .spec-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(242, 169, 0, 0.3);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        .method-card:hover::before {
+            opacity: 1;
         }
 
-        .spec-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
+        .method-icon {
+            font-size: 2.4rem;
+            margin-bottom: 16px;
         }
 
-        .spec-card h4 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 22px;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
+        .method-card h4 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: var(--gold-light);
         }
 
-        .spec-card p {
-            font-size: 14px;
-            color: var(--text-muted);
-            line-height: 1.7;
+        .method-card p {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
         }
 
-        /* ===== LIFESTYLE ===== */
-        .lifestyle {
-            background: var(--dark-card);
+        /* === COMPARISON TABLE === */
+        .comparison-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 16px;
+            border: 1px solid var(--border);
         }
 
-        .lifestyle-grid {
-            max-width: 1200px;
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table thead th {
+            padding: 18px 24px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table thead th:first-child {
+            text-align: left;
+        }
+
+        .comparison-table thead th:nth-child(2) {
+            color: var(--gold);
+        }
+
+        .comparison-table tbody td {
+            padding: 14px 24px;
+            font-size: 0.85rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            color: var(--text-secondary);
+        }
+
+        .comparison-table tbody td:first-child {
+            text-align: left;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .comparison-table tbody tr {
+            background: var(--bg-primary);
+            transition: background 0.3s ease;
+        }
+
+        .comparison-table tbody tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .comparison-table tbody tr:hover {
+            background: rgba(212, 168, 67, 0.04);
+        }
+
+        .check {
+            color: var(--gold);
+            font-size: 1.2rem;
+        }
+
+        .cross {
+            color: #555;
+            font-size: 1.2rem;
+        }
+
+        /* === GALLERY === */
+        .gallery-grid {
+            max-width: 1100px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
         }
 
-        .lifestyle-image {
-            border-radius: 20px;
+        .gallery-item {
+            border-radius: 16px;
             overflow: hidden;
+            border: 1px solid var(--border);
+            transition: all 0.4s ease;
         }
 
-        .lifestyle-image img {
+        .gallery-item:hover {
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-gold);
+            transform: scale(1.02);
+        }
+
+        .gallery-item img {
             width: 100%;
-            height: 500px;
+            height: 300px;
             object-fit: cover;
             display: block;
         }
 
-        .lifestyle-text h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 36px;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-        }
-
-        .lifestyle-text h3 .gold {
-            background: var(--gradient-gold);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .lifestyle-text p {
-            color: var(--text-muted);
-            line-height: 1.8;
-            font-size: 15px;
-            margin-bottom: 16px;
-        }
-
-        .lifestyle-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 24px;
-        }
-
-        .lifestyle-tags span {
-            background: rgba(242, 169, 0, 0.1);
-            border: 1px solid rgba(242, 169, 0, 0.2);
-            padding: 8px 18px;
-            border-radius: 50px;
-            font-size: 13px;
-            color: var(--gold-light);
-            font-weight: 500;
-        }
-
-        /* ===== CTA SECTION ===== */
-        .cta-section {
+        /* === URGENCY === */
+        .urgency-block {
+            max-width: 700px;
+            margin: 0 auto;
             text-align: center;
-            position: relative;
-            overflow: hidden;
+            padding: 48px 32px;
+            background: var(--bg-card);
+            border: 1px solid var(--gold-dark);
+            border-radius: 20px;
+            box-shadow: var(--shadow-gold);
         }
 
-        .cta-section::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(242, 169, 0, 0.08), transparent 70%);
-            transform: translate(-50%, -50%);
-            pointer-events: none;
+        .urgency-block h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 12px;
         }
 
-        .cta-section h2 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(40px, 6vw, 64px);
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            position: relative;
+        .urgency-block p {
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+            font-size: 0.95rem;
         }
 
-        .cta-section h2 .gold {
-            background: var(--gradient-gold);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .cta-section p {
-            color: var(--text-muted);
-            font-size: 18px;
-            margin-bottom: 40px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
-        }
-
-        .cta-buttons {
+        .countdown {
             display: flex;
             justify-content: center;
             gap: 20px;
-            flex-wrap: wrap;
-            position: relative;
+            margin-bottom: 32px;
         }
 
-        .btn-telegram {
-            background: linear-gradient(135deg, #0088cc, #00aaff);
-            color: white;
-            padding: 18px 40px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 16px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-decoration: none;
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-telegram:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(0, 136, 204, 0.35);
-        }
-
-        .btn-youtube {
-            background: linear-gradient(135deg, #FF0000, #CC0000);
-            color: white;
-            padding: 18px 40px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 16px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-decoration: none;
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-youtube:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(255, 0, 0, 0.3);
-        }
-
-        /* ===== FOOTER ===== */
-        footer {
+        .countdown-item {
             text-align: center;
-            padding: 40px;
-            border-top: 1px solid rgba(242, 169, 0, 0.1);
         }
 
-        footer p {
+        .countdown-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .countdown-label {
+            font-size: 0.7rem;
             color: var(--text-muted);
-            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 6px;
         }
 
-        footer .gold {
+        /* === FOOTER === */
+        .footer {
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            background: var(--bg-primary);
+        }
+
+        .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .footer p {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 16px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
             color: var(--gold);
         }
 
-        /* ===== SCROLL ANIMATIONS ===== */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+        /* === ANIMATIONS === */
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
-        .reveal.visible {
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s ease-out;
+        }
+
+        .fade-in-up.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* ===== MOBILE ===== */
-        @media (max-width: 968px) {
-            .nav-links {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100vh;
-                background: rgba(10, 10, 10, 0.98);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 40px;
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .nav-links a {
-                font-size: 24px;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
+        /* === RESPONSIVE === */
+        @media (max-width: 900px) {
             .hero-content {
                 grid-template-columns: 1fr;
                 text-align: center;
-                padding: 120px 20px 60px;
                 gap: 40px;
             }
 
-            .hero-left p {
-                margin-left: auto;
-                margin-right: auto;
+            .hero-text h1 {
+                font-size: 2.4rem;
+            }
+
+            .hero-stats {
+                justify-content: center;
             }
 
             .hero-buttons {
                 justify-content: center;
+                flex-wrap: wrap;
             }
 
-            .hero-stats {
-                max-width: 400px;
+            .hero-image {
+                order: -1;
+            }
+
+            .hero-image img {
+                max-width: 300px;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .about-image img {
+                max-width: 350px;
                 margin: 0 auto;
             }
 
-            .about-grid,
-            .lifestyle-grid {
+            .about-tags {
+                justify-content: center;
+            }
+
+            .method-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+
+            .gallery-grid {
                 grid-template-columns: 1fr;
-                gap: 40px;
             }
 
-            .spec-grid {
-                grid-template-columns: 1fr;
-                max-width: 400px;
-                margin: 0 auto;
+            .navbar-links {
+                gap: 16px;
             }
 
-            .timeline-container::before {
-                left: 20px;
+            .navbar-links a {
+                font-size: 0.72rem;
             }
 
-            .timeline-item:nth-child(odd),
-            .timeline-item:nth-child(even) {
-                flex-direction: row;
-                padding-left: 52px;
-                padding-right: 0;
-                text-align: left;
-            }
-
-            .timeline-dot {
-                left: 20px;
-            }
-
-            section {
-                padding: 60px 20px;
-            }
-
-            .navbar {
-                padding: 14px 20px;
+            .section-title {
+                font-size: 1.7rem;
             }
         }
 
-        @media (max-width: 480px) {
-            .hero-stats {
+        @media (max-width: 500px) {
+            .method-grid {
                 grid-template-columns: 1fr;
             }
 
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
+            .hero-stats {
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+
+            .countdown {
+                gap: 12px;
+            }
+
+            .countdown-value {
+                font-size: 2rem;
+            }
+
+            .comparison-table thead th,
+            .comparison-table tbody td {
+                padding: 10px 12px;
+                font-size: 0.78rem;
             }
         }
     </style>
@@ -849,239 +765,298 @@
 <body>
 
     <!-- NAVBAR -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-logo">PAPI <span>TRADER</span></div>
-        <ul class="nav-links" id="navLinks">
-            <li><a href="#historia" onclick="closeMenu()">Historia</a></li>
-            <li><a href="#trayectoria" onclick="closeMenu()">Trayectoria</a></li>
-            <li><a href="#especialidad" onclick="closeMenu()">Especialidad</a></li>
-            <li><a href="#vida" onclick="closeMenu()">Vida</a></li>
-        </ul>
-        <a href="https://tg.trading-top.com/1if8xkE1rr" target="_blank" class="nav-cta">Unirse al Equipo</a>
-        <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <div class="navbar-brand">Papi Trader</div>
+            <div class="navbar-links">
+                <a href="#metodo">Método</a>
+                <a href="#ventajas">Ventajas</a>
+                <a href="#trayectoria">Trayectoria</a>
+                <a href="#empezar">Empezar</a>
+            </div>
         </div>
     </nav>
 
     <!-- HERO -->
-    <section class="hero">
-        <div class="hero-bg">
-            <img src="images/papi-hero.jpg" alt="Papi Trader">
-        </div>
+    <section class="hero" id="inicio">
         <div class="hero-content">
-            <div class="hero-left">
-                <div class="hero-tag">
-                    <span class="pulse"></span>
-                    Trader de Opciones Binarias
+            <div class="hero-text">
+                <div class="hero-badge">Trading · Opciones Binarias</div>
+                <h1>Jose Miguel<br><span>Papi Trader</span></h1>
+                <p class="hero-subtitle">Trader profesional con más de 10 años de experiencia en opciones binarias y mercados financieros</p>
+                <p class="hero-location">📍 Miami, USA · <span>Origen: México</span></p>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">10+</div>
+                        <div class="hero-stat-label">Años exp.</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">87%</div>
+                        <div class="hero-stat-label">Win rate</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">5K+</div>
+                        <div class="hero-stat-label">Alumnos</div>
+                    </div>
                 </div>
-                <h1>
-                    JOSE MIGUEL<br>
-                    <span class="gold">ESCOBAR</span>
-                </h1>
-                <p>De estudiante de IT en Ciudad de México a trader profesional de opciones binarias en Miami. 10 años de experiencia, más de 50.000 estudiantes formados y un sistema de señales con precisión comprobada.</p>
                 <div class="hero-buttons">
-                    <a href="https://tg.trading-top.com/1if8xkE1rr" target="_blank" class="btn-primary">📲 Canal de Señales</a>
-                    <a href="https://www.youtube.com/@jozigod" target="_blank" class="btn-secondary">▶ YouTube</a>
+                    <a href="https://www.youtube.com/@jozigod" target="_blank" class="btn btn-gold">▶ YouTube</a>
+                    <a href="https://tg.trading-top.com/1if8xkE1rr" target="_blank" class="btn btn-outline">✈ Telegram</a>
                 </div>
             </div>
-            <div class="hero-stats">
-                <div class="stat-card">
-                    <div class="stat-number">10+</div>
-                    <div class="stat-label">Años de Trading</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">50K+</div>
-                    <div class="stat-label">Estudiantes</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">87%</div>
-                    <div class="stat-label">Win Rate</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">24/5</div>
-                    <div class="stat-label">Mercado Activo</div>
+            <div class="hero-image">
+                <img src="papi-hero.jpg" alt="Papi Trader">
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section section-dark" id="sobre">
+        <div class="about-grid fade-in-up">
+            <div class="about-image">
+                <img src="papi-read.jpg" alt="Jose Miguel Escobar">
+            </div>
+            <div class="about-content">
+                <h3>¿Quién es <span style="color: var(--gold);">Papi Trader</span>?</h3>
+                <p>Me llamo Jose Miguel Escobar, tengo 28 años y llevo operando en los mercados desde 2015. Nací en México, estudié Tecnologías de la Información y descubrí el trading cuando buscaba una forma de generar ingresos independientes.</p>
+                <p>Hoy vivo en Miami y me dedico a enseñar a personas de toda Latinoamérica a operar opciones binarias con una metodología clara, sin falsas promesas y con resultados reales.</p>
+                <p>Mi canal de YouTube y mi comunidad en Telegram son mi principal forma de compartir conocimiento — señales, análisis en vivo y formación gratuita para todos los niveles.</p>
+                <div class="about-tags">
+                    <span class="about-tag">Opciones Binarias</span>
+                    <span class="about-tag">Análisis Técnico</span>
+                    <span class="about-tag">Gestión de Riesgo</span>
+                    <span class="about-tag">Copy Trading</span>
+                    <span class="about-tag">Mentoría VIP</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ABOUT / HISTORIA -->
-    <section class="about" id="historia">
-        <div class="about-grid">
-            <div class="about-image reveal">
-                <img src="images/papi-work.jpg" alt="Papi Trader trabajando">
+    <!-- METHODOLOGY -->
+    <section class="section" id="metodo">
+        <h2 class="section-title">Mi Método, <span>Tu Resultado</span></h2>
+        <p class="section-subtitle">Un sistema probado que combina señales, formación y acompañamiento para que operes con confianza</p>
+        <div class="method-grid">
+            <div class="method-card fade-in-up">
+                <div class="method-icon">📡</div>
+                <h4>Señales Gratis</h4>
+                <p>Señales diarias en mi canal de Telegram con puntos de entrada, dirección y temporalidad. Acceso gratuito para todos.</p>
             </div>
-            <div class="about-text reveal">
-                <div class="section-tag">Mi Historia</div>
-                <h3>Del código a los <span class="gold">gráficos de trading</span></h3>
-                <p>Mi nombre es Jose Miguel Escobar, nací en Ciudad de México en 1997. Desde joven me apasionó la tecnología — estudié ingeniería en sistemas y trabajé como desarrollador. Pero todo cambió cuando descubrí las opciones binarias en 2015.</p>
-                <p>Lo que empezó como curiosidad se convirtió en obsesión. Pasé meses analizando gráficos, probando estrategias y perfeccionando mi sistema de análisis técnico. Mi formación en IT me dio una ventaja: podía analizar patrones de datos mejor que la mayoría.</p>
-                <p>En 2018 dejé mi trabajo en tecnología y me mudé a Miami para dedicarme al trading de opciones binarias a tiempo completo. Desde entonces, he formado a más de 50.000 traders y construido una comunidad que opera con disciplina y resultados.</p>
+            <div class="method-card fade-in-up">
+                <div class="method-icon">🏆</div>
+                <h4>VIP y Maratones</h4>
+                <p>Sesiones exclusivas de trading en vivo, maratones semanales y acceso a estrategias avanzadas con resultados verificados.</p>
+            </div>
+            <div class="method-card fade-in-up">
+                <div class="method-icon">🔄</div>
+                <h4>Copy Trading</h4>
+                <p>Copia mis operaciones en tiempo real. Ideal para quienes comienzan o no tienen tiempo para analizar el mercado.</p>
+            </div>
+            <div class="method-card fade-in-up">
+                <div class="method-icon">🎓</div>
+                <h4>Formación</h4>
+                <p>Cursos paso a paso en video — desde los fundamentos hasta técnicas avanzadas de opciones binarias.</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 48px;">
+            <a href="https://tg.trading-top.com/1if8xkE1rr" target="_blank" class="btn btn-gold">✈ Unirse al Canal</a>
+        </div>
+    </section>
+
+    <!-- COMPARISON -->
+    <section class="section section-dark" id="ventajas">
+        <h2 class="section-title">¿Por qué <span>Papi Trader</span>?</h2>
+        <p class="section-subtitle">La diferencia entre seguir a cualquiera y seguir a un profesional con resultados</p>
+        <div class="comparison-wrapper fade-in-up">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>Papi Trader</th>
+                        <th>Otros</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Señales gratuitas diarias</td>
+                        <td><span class="check">✔</span></td>
+                        <td><span class="cross">✘</span></td>
+                    </tr>
+                    <tr>
+                        <td>Operaciones en vivo con pruebas</td>
+                        <td><span class="check">✔</span></td>
+                        <td><span class="cross">✘</span></td>
+                    </tr>
+                    <tr>
+                        <td>+10 años de experiencia real</td>
+                        <td><span class="check">✔</span></td>
+                        <td><span class="cross">✘</span></td>
+                    </tr>
+                    <tr>
+                        <td>Copy trading disponible</td>
+                        <td><span class="check">✔</span></td>
+                        <td><span class="cross">✘</span></td>
+                    </tr>
+                    <tr>
+                        <td>Comunidad activa 24/7</td>
+                        <td><span class="check">✔</span></td>
+                        <td><span class="cross">✘</span></td>
+                    </tr>
+                    <tr>
+                        <td>Formación estructurada gratis</td>
+                        <td><span class="check">✔</span></td>
+                        <td><span class="cross">✘</span></td>
+                    </tr>
+                    <tr>
+                        <td>Soporte personalizado</td>
+                        <td><span class="check">✔</span></td>
+                        <td><span class="cross">✘</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section class="section" id="trayectoria">
+        <h2 class="section-title">Mi <span>Trayectoria</span></h2>
+        <p class="section-subtitle">Más de una década de evolución constante en los mercados financieros</p>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot">1</div>
+                <div class="timeline-content">
+                    <h4>2015 — Primeros Pasos</h4>
+                    <p>Descubrí el trading mientras estudiaba TI en México. Empecé con una cuenta demo y $50 reales.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot">2</div>
+                <div class="timeline-content">
+                    <h4>2017 — Primera Estrategia Rentable</h4>
+                    <p>Después de dos años de errores, encontré mi primer sistema consistente en opciones binarias.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot">3</div>
+                <div class="timeline-content">
+                    <h4>2019 — Canal de YouTube</h4>
+                    <p>Empecé a compartir análisis y operaciones en vivo. La comunidad creció rápidamente.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot">4</div>
+                <div class="timeline-content">
+                    <h4>2021 — Comunidad Telegram</h4>
+                    <p>Lancé el canal de señales y la comunidad VIP. Miles de traders se unieron en el primer año.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot">5</div>
+                <div class="timeline-content">
+                    <h4>2023 — Copy Trading</h4>
+                    <p>Implementé el sistema de copy trading para que cualquiera pueda replicar mis operaciones automáticamente.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot">6</div>
+                <div class="timeline-content">
+                    <h4>2025 — Miami & Expansión</h4>
+                    <p>Establecido en Miami, enfocado en llevar formación profesional a toda Latinoamérica y el mundo hispanohablante.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- TIMELINE / TRAYECTORIA -->
-    <section id="trayectoria">
-        <div class="section-header">
-            <div class="section-tag">Trayectoria</div>
-            <h2>MI CAMINO EN <span class="gold">OPCIONES BINARIAS</span></h2>
-        </div>
-        <div class="timeline-container">
-            <div class="timeline-item reveal">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <div class="timeline-year">2015</div>
-                    <h4>Primeras operaciones</h4>
-                    <p>Descubrí las opciones binarias mientras estudiaba IT en Ciudad de México. Abrí mi primera cuenta con $50 y empecé a estudiar análisis técnico cada noche después de clases.</p>
-                </div>
+    <!-- GALLERY -->
+    <section class="section section-dark">
+        <h2 class="section-title">Estilo de <span>Vida</span></h2>
+        <p class="section-subtitle">El trading no es solo números — es libertad, disciplina y propósito</p>
+        <div class="gallery-grid">
+            <div class="gallery-item fade-in-up">
+                <img src="papi-work.jpg" alt="Papi trabajando">
             </div>
-            <div class="timeline-item reveal">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <div class="timeline-year">2017</div>
-                    <h4>Sistema propio de señales</h4>
-                    <p>Después de 2 años de práctica, desarrollé mi propio sistema de trading basado en acción del precio, soportes/resistencias y patrones de velas. Mi win rate superó el 80%.</p>
-                </div>
-            </div>
-            <div class="timeline-item reveal">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <div class="timeline-year">2018</div>
-                    <h4>Salto a Miami</h4>
-                    <p>Dejé mi trabajo como desarrollador y me mudé a Miami. Las opciones binarias pasaron de ser un ingreso extra a mi profesión principal. Empecé a publicar resultados y atraer seguidores.</p>
-                </div>
-            </div>
-            <div class="timeline-item reveal">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <div class="timeline-year">2020</div>
-                    <h4>Lanzamiento de la comunidad</h4>
-                    <p>Creé mi canal de Telegram con señales en tiempo real. En los primeros 6 meses, más de 5.000 personas se unieron. La pandemia aceleró el interés en trading online.</p>
-                </div>
-            </div>
-            <div class="timeline-item reveal">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <div class="timeline-year">2022</div>
-                    <h4>Educación masiva</h4>
-                    <p>Lancé mi programa de formación en YouTube con análisis de mercado, tutoriales de estrategias y sesiones en vivo. El canal creció exponencialmente en toda Latinoamérica.</p>
-                </div>
-            </div>
-            <div class="timeline-item reveal">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <div class="timeline-year">2024</div>
-                    <h4>50.000+ traders formados</h4>
-                    <p>Hoy lidero una comunidad de más de 50.000 estudiantes activos. Mi sistema de señales VIP mantiene un win rate del 87% y sigo operando en vivo cada día.</p>
-                </div>
+            <div class="gallery-item fade-in-up">
+                <img src="papi-life.jpg" alt="Estilo de vida">
             </div>
         </div>
     </section>
 
-    <!-- SPECIALIZATION / ESPECIALIDAD -->
-    <section class="about" id="especialidad">
-        <div class="section-header">
-            <div class="section-tag">Especialidad</div>
-            <h2>OPCIONES BINARIAS: <span class="gold">MI ENFOQUE</span></h2>
-        </div>
-        <div class="spec-grid">
-            <div class="spec-card reveal">
-                <div class="spec-icon">📊</div>
-                <h4>ANÁLISIS TÉCNICO</h4>
-                <p>Opero con acción del precio puro: soportes, resistencias, patrones de velas japonesas y zonas de liquidez. Sin indicadores complicados — gráfico limpio.</p>
-            </div>
-            <div class="spec-card reveal">
-                <div class="spec-icon">⏱️</div>
-                <h4>SEÑALES EN VIVO</h4>
-                <p>Señales de opciones binarias en tiempo real por Telegram. Cada señal incluye activo, dirección, expiración y nivel de confianza. Transparencia total.</p>
-            </div>
-            <div class="spec-card reveal">
-                <div class="spec-icon">🎯</div>
-                <h4>WIN RATE 87%</h4>
-                <p>Mi sistema mantiene un porcentaje de aciertos del 87% verificado. La clave: paciencia, disciplina y esperar solo las mejores configuraciones del mercado.</p>
-            </div>
-            <div class="spec-card reveal">
-                <div class="spec-icon">🧠</div>
-                <h4>PSICOLOGÍA DEL TRADER</h4>
-                <p>El 80% del trading es mental. Enseño gestión emocional, control de impulsos y cómo mantener la disciplina cuando el mercado se pone difícil.</p>
-            </div>
-            <div class="spec-card reveal">
-                <div class="spec-icon">💰</div>
-                <h4>GESTIÓN DE CAPITAL</h4>
-                <p>Reglas estrictas de money management: nunca arriesgar más del 2-5% por operación. Así se protege el capital y se crece de forma sostenible.</p>
-            </div>
-            <div class="spec-card reveal">
-                <div class="spec-icon">🎓</div>
-                <h4>FORMACIÓN COMPLETA</h4>
-                <p>Desde principiante hasta trader avanzado. Mi programa cubre análisis técnico, estrategias de opciones binarias, lectura de mercado y trading en vivo.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- LIFESTYLE / VIDA -->
-    <section class="lifestyle" id="vida">
-        <div class="lifestyle-grid">
-            <div class="lifestyle-text reveal">
-                <div class="section-tag">Estilo de Vida</div>
-                <h3>El trading me dio <span class="gold">libertad financiera</span></h3>
-                <p>Vivo en Miami, opero desde donde quiera y tengo control total de mi tiempo. Pero esto no es solo sobre dinero — es sobre construir una vida con propósito.</p>
-                <p>Cada mañana analizo los mercados, envío señales a mi comunidad y grabo contenido educativo. El trading de opciones binarias me permitió salir de la rutina de un trabajo convencional y crear algo propio.</p>
-                <p>Mi misión es demostrar que cualquier persona con disciplina y el sistema correcto puede generar ingresos reales operando opciones binarias. No importa de dónde vengas — lo que importa es tu compromiso.</p>
-                <div class="lifestyle-tags">
-                    <span>🌴 Miami Life</span>
-                    <span>📈 Opciones Binarias</span>
-                    <span>🎓 Mentor</span>
-                    <span>💻 Trading Online</span>
-                    <span>🇲🇽 Orgullosamente Mexicano</span>
+    <!-- URGENCY -->
+    <section class="section" id="empezar">
+        <div class="urgency-block fade-in-up">
+            <h3>¿Listo para <span style="color: var(--gold);">Empezar</span>?</h3>
+            <p>Únete a miles de traders que ya operan con señales profesionales. El acceso es gratuito — pero las plazas VIP son limitadas.</p>
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-value" id="hours">05</div>
+                    <div class="countdown-label">Horas</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-value" id="minutes">00</div>
+                    <div class="countdown-label">Minutos</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-value" id="seconds">00</div>
+                    <div class="countdown-label">Segundos</div>
                 </div>
             </div>
-            <div class="lifestyle-image reveal">
-                <img src="images/papi-life.jpg" alt="Papi Trader lifestyle">
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                <a href="https://www.youtube.com/@jozigod" target="_blank" class="btn btn-gold">▶ YouTube</a>
+                <a href="https://tg.trading-top.com/1if8xkE1rr" target="_blank" class="btn btn-outline">✈ Telegram</a>
             </div>
-        </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="cta-section">
-        <h2>¿LISTO PARA <span class="gold">OPERAR</span>?</h2>
-        <p>Únete a más de 50.000 traders que ya operan con mis señales de opciones binarias. Acceso a señales en vivo, formación y comunidad VIP.</p>
-        <div class="cta-buttons">
-            <a href="https://tg.trading-top.com/1if8xkE1rr" target="_blank" class="btn-telegram">📲 Telegram VIP</a>
-            <a href="https://www.youtube.com/@jozigod" target="_blank" class="btn-youtube">▶ YouTube</a>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer>
-        <p><span class="gold">PAPI TRADER</span> © 2024 — Jose Miguel Escobar. Todos los derechos reservados.</p>
-        <p style="margin-top: 8px; font-size: 11px;">El trading de opciones binarias implica riesgo. Opera con responsabilidad.</p>
+    <footer class="footer">
+        <div class="footer-brand">Papi Trader</div>
+        <p>© 2025 Jose Miguel Escobar. Todos los derechos reservados.</p>
+        <div class="footer-links">
+            <a href="https://www.youtube.com/@jozigod" target="_blank">YouTube</a>
+            <a href="https://tg.trading-top.com/1if8xkE1rr" target="_blank">Telegram</a>
+        </div>
     </footer>
 
+    <!-- SCRIPTS -->
     <script>
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
+        // Countdown Timer — 5 hours
+        function startCountdown() {
+            const key = 'papiCountdownEnd';
+            let end = localStorage.getItem(key);
+
+            if (!end || parseInt(end) < Date.now()) {
+                end = Date.now() + 5 * 60 * 60 * 1000;
+                localStorage.setItem(key, end);
             }
-        });
 
-        // Mobile menu
-        function toggleMenu() {
-            document.getElementById('navLinks').classList.toggle('active');
+            function update() {
+                const remaining = Math.max(0, parseInt(end) - Date.now());
+                const h = Math.floor(remaining / 3600000);
+                const m = Math.floor((remaining % 3600000) / 60000);
+                const s = Math.floor((remaining % 60000) / 1000);
+
+                document.getElementById('hours').textContent = String(h).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(m).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(s).padStart(2, '0');
+
+                if (remaining > 0) requestAnimationFrame(update);
+            }
+
+            update();
+            setInterval(() => {
+                const remaining = Math.max(0, parseInt(localStorage.getItem(key)) - Date.now());
+                const h = Math.floor(remaining / 3600000);
+                const m = Math.floor((remaining % 3600000) / 60000);
+                const s = Math.floor((remaining % 60000) / 1000);
+                document.getElementById('hours').textContent = String(h).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(m).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(s).padStart(2, '0');
+            }, 1000);
         }
 
-        function closeMenu() {
-            document.getElementById('navLinks').classList.remove('active');
-        }
+        startCountdown();
 
-        // Scroll reveal
-        const revealElements = document.querySelectorAll('.reveal');
+        // Scroll Reveal
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1090,7 +1065,7 @@
             });
         }, { threshold: 0.15 });
 
-        revealElements.forEach(el => observer.observe(el));
+        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
     </script>
 
 </body>
